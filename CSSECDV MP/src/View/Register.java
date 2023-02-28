@@ -115,9 +115,25 @@ public class Register extends javax.swing.JPanel {
                     , "Username already exists, please enter a unique name.",
                                "Error", JOptionPane.WARNING_MESSAGE);
         }
+        //If passwords do not match
+        else if(!passwordFld.getText().equals(confpassFld.getText()))
+        {
+             JOptionPane.showMessageDialog(this
+                    , "Passwords do not match.",
+                               "Error", JOptionPane.WARNING_MESSAGE);
+        }
+        //If password is less than 8 characters
+        else if(passwordFld.getText().length() < 8){
+              JOptionPane.showMessageDialog(this
+                    , "Password is weak, it must be at least 8 characters.",
+                               "Error", JOptionPane.WARNING_MESSAGE);
+        }
         else{
             //Add user to database
             frame.registerAction(usernameFld.getText().toLowerCase(), passwordFld.getText(), confpassFld.getText());
+            usernameFld.setText(null);
+            passwordFld.setText(null);
+            confpassFld.setText(null);
             frame.loginNav();
         }
         
