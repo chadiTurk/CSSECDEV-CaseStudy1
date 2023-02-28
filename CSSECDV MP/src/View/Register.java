@@ -128,6 +128,11 @@ public class Register extends javax.swing.JPanel {
                     , "Password is weak, it must be at least 8 characters.",
                                "Error", JOptionPane.WARNING_MESSAGE);
         }
+        else if(passwordFld.getText().length() > 64){
+              JOptionPane.showMessageDialog(this
+                    , "Password should not exceed 64 charactersd.",
+                               "Error", JOptionPane.WARNING_MESSAGE);
+        }
         else{
             //Add user to database
             frame.registerAction(usernameFld.getText().toLowerCase(), passwordFld.getText(), confpassFld.getText());
