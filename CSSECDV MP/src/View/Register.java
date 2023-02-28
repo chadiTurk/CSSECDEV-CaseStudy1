@@ -1,6 +1,8 @@
 
 package View;
-
+import Model.User;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 public class Register extends javax.swing.JPanel {
 
     public Frame frame;
@@ -97,8 +99,31 @@ public class Register extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void registerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerBtnActionPerformed
-        frame.registerAction(usernameFld.getText(), passwordFld.getText(), confpassFld.getText());
-        frame.loginNav();
+        
+        boolean userExists = false;
+        String currUsername = usernameFld.getText().toLowerCase();
+        
+        for (User user : frame.main.sqlite.getUsers()) {
+            if(user.getUsername().toLowerCase().equals(currUsername)){
+                userExists = true;
+                break;
+            }
+        }
+        //If user id already exists
+        if(userExists){
+            JOptionPane.showMessageDialog(this
+                    , "Username already exists, please enter a unique name.",
+                               "Error", JOptionPane.WARNING_MESSAGE);
+        }
+        else{
+            //Add user to database
+            frame.registerAction(usernameFld.getText().toLowerCase(), passwordFld.getText(), confpassFld.getText());
+            frame.loginNav();
+        }
+        
+        
+        
+
     }//GEN-LAST:event_registerBtnActionPerformed
 
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
