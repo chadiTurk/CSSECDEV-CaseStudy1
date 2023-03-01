@@ -3,6 +3,8 @@ package View;
 import Model.User;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 public class Register extends javax.swing.JPanel {
 
     public Frame frame;
@@ -102,6 +104,14 @@ public class Register extends javax.swing.JPanel {
         
         boolean userExists = false;
         String currUsername = usernameFld.getText().toLowerCase();
+       
+        
+        if(checkIfEmailAndIsValid(currUsername).equals("InvalidEmail")){
+            JOptionPane.showMessageDialog(this
+                    , "Please enter a valid email address.",
+                               "Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         
         for (User user : frame.main.sqlite.getUsers()) {
             if(user.getUsername().toLowerCase().equals(currUsername)){
@@ -150,7 +160,41 @@ public class Register extends javax.swing.JPanel {
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
         frame.loginNav();
     }//GEN-LAST:event_backBtnActionPerformed
+    
+    private String checkIfEmailAndIsValid(String currUsername){
+        
+        Pattern patternCheckEmail = Pattern.compile("@");
+        Matcher matcherCheckEmail = patternCheckEmail.matcher(currUsername);
+        
+        boolean emailDetected = matcherCheckEmail.find();
+        
+        //If email is found
+        if(emailDetected){
+            //Check if email is valid
+            Pattern patternCheckValidEmail = Pattern.compile("^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$");
+            Matcher matcherCheckValidEmail = patternCheckValidEmail.matcher(currUsername);
+            
+            System.out.println(currUsername);
+            
+            boolean emailIsValid = matcherCheckValidEmail.find();
+            
+            System.out.println(emailIsValid);
+            
+            if(emailIsValid){
+                return "ValidEmail";
+            }
+            else{
+                return "InvalidEmail";
+            }
+        }
+        else{
+            return "NotAnEmail";
+        }
+            
+        
+        
 
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backBtn;
