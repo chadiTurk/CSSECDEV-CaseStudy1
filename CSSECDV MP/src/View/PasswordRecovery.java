@@ -168,15 +168,18 @@ public class PasswordRecovery extends javax.swing.JPanel {
     private void enterBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enterBtnActionPerformed
         System.out.println("CORRECT PIN: " + pin);
         System.out.println("CURRENT PIN: " + pinFld.getText());
-        
+        String currUsername = userFld.getText().toLowerCase();
         if(pinFld.getText().equals(pin)){
-            frame.passUpdateNav();
-        }else{
-            pin = null;
+             pin = null;
             pinFld.setText("");
             userFld.setText("");
             pinFld.setEnabled(false);
             pinLabel.setText("Enter username to access field below.");
+            frame.passUpdateNav(currUsername);
+            
+            
+        }else{
+           pinLabel.setText("Invalid PIN.");
         }
     }//GEN-LAST:event_enterBtnActionPerformed
     private static final SecureRandom secureRandom = new SecureRandom(); 

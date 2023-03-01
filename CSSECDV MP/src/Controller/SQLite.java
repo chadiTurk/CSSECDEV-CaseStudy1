@@ -7,7 +7,9 @@ import Model.User;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -316,5 +318,24 @@ public class SQLite {
             System.out.print(ex);
         }
         return product;
+    }
+    
+    //Update password
+    
+    public void updatePassword(String username, String password){
+       String sql = "UPDATE users SET password=? WHERE username=?";
+       ArrayList<User> users = getUsers();
+       
+        try{
+            Connection conn = DriverManager.getConnection(driverURL);
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1,password);
+            statement.setString(2,username);
+            System.out.println(statement.executeUpdate());
+        }
+        catch (SQLException ex) {
+            System.out.print(ex);
+        }
+       
     }
 }

@@ -1,5 +1,7 @@
 package View;
 
+import javax.swing.JOptionPane;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
@@ -16,6 +18,7 @@ public class PasswordUpdate extends javax.swing.JPanel {
      */
     
     public Frame frame;
+    private String usernameUpdate;
     
     public PasswordUpdate() {
         initComponents();
@@ -34,6 +37,7 @@ public class PasswordUpdate extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         passwordFld = new javax.swing.JTextField();
         confpassFld = new javax.swing.JTextField();
+        updatePassBtn = new javax.swing.JButton();
 
         backBtn.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         backBtn.setText("<Back");
@@ -58,6 +62,14 @@ public class PasswordUpdate extends javax.swing.JPanel {
         confpassFld.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         confpassFld.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "CONFIRM PASSWORD", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
 
+        updatePassBtn.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        updatePassBtn.setText("UPDATE PASSWORD");
+        updatePassBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updatePassBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -73,6 +85,7 @@ public class PasswordUpdate extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(updatePassBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(backBtn)
                                 .addGap(0, 0, Short.MAX_VALUE))
@@ -90,7 +103,9 @@ public class PasswordUpdate extends javax.swing.JPanel {
                 .addComponent(passwordFld, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(confpassFld, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(152, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(updatePassBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(88, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -98,11 +113,46 @@ public class PasswordUpdate extends javax.swing.JPanel {
         frame.passRecNav();
     }//GEN-LAST:event_backBtnActionPerformed
 
+    private void updatePassBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updatePassBtnActionPerformed
+        // TODO add your handling code here:
+        //Check if user exists
+        if(!passwordFld.getText().equals(confpassFld.getText()))
+        {
+             JOptionPane.showMessageDialog(this
+                    , "Passwords do not match.",
+                               "Error", JOptionPane.WARNING_MESSAGE);
+        }
+        //If password is less than 8 characters
+        else if(passwordFld.getText().length() < 8){
+              JOptionPane.showMessageDialog(this
+                    , "Password is weak, it must be at least 8 characters.",
+                               "Error", JOptionPane.WARNING_MESSAGE);
+        }
+        else if(passwordFld.getText().length() > 64){
+              JOptionPane.showMessageDialog(this
+                    , "Password should not exceed 64 charactersd.",
+                               "Error", JOptionPane.WARNING_MESSAGE);
+        }
+        else{
+            System.out.println("username val: " + usernameUpdate);
+            frame.updateAction(usernameUpdate, passwordFld.getText());
+            JOptionPane.showMessageDialog(this
+                    , "Password has updated successfully..",
+                               "Updated", JOptionPane.INFORMATION_MESSAGE);
+            frame.loginNav();
+        }
+
+    }//GEN-LAST:event_updatePassBtnActionPerformed
+    
+    public void setUserName(String username){
+        usernameUpdate= username;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backBtn;
     private javax.swing.JTextField confpassFld;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JTextField passwordFld;
+    private javax.swing.JButton updatePassBtn;
     // End of variables declaration//GEN-END:variables
 }

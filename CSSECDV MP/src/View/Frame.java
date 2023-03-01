@@ -268,12 +268,17 @@ public class Frame extends javax.swing.JFrame {
         frameView.show(Container,"passRecPnl");
     }
     
-    public void passUpdateNav(){
+    public void passUpdateNav(String username){
         frameView.show(Container,"passUpdatePnl");
+        passUpdatePnl.setUserName(username);
     }
     
     public void registerAction(String username, String password, String confpass){
         main.sqlite.addUser(username, password);
+    }
+    
+    public void updateAction(String username, String password){
+        main.sqlite.updatePassword(username, password);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
