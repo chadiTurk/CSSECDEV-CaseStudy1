@@ -1,5 +1,12 @@
 package View;
 
+import Model.User;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.security.SecureRandom;
+import java.util.Base64;
+import javax.swing.SwingConstants;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
@@ -12,11 +19,13 @@ package View;
 public class PasswordRecovery extends javax.swing.JPanel {
     
     public Frame frame;
+    private String pin = null;
     /**
      * Creates new form PasswordRecovery
      */
     public PasswordRecovery() {
         initComponents();
+        myInitComponents();
     }
 
     /**
@@ -28,7 +37,21 @@ public class PasswordRecovery extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel2 = new javax.swing.JLabel();
         passRecBackBtn = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        pinFld = new javax.swing.JTextField();
+        userFld = new javax.swing.JTextField();
+        enterBtn = new javax.swing.JButton();
+        recoverPassBtn = new javax.swing.JButton();
+        pinLabel = new javax.swing.JLabel();
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("SECURITY Svcs");
+        jLabel2.setToolTipText("");
+
+        setPreferredSize(new java.awt.Dimension(768, 472));
 
         passRecBackBtn.setText("<Back");
         passRecBackBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -37,22 +60,96 @@ public class PasswordRecovery extends javax.swing.JPanel {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("SECURITY Svcs");
+        jLabel1.setToolTipText("");
+
+        pinFld.setBackground(new java.awt.Color(240, 240, 240));
+        pinFld.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        pinFld.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        pinFld.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "USERNAME", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
+        pinFld.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pinFldActionPerformed(evt);
+            }
+        });
+
+        userFld.setBackground(new java.awt.Color(240, 240, 240));
+        userFld.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        userFld.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        userFld.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "USERNAME", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
+        userFld.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                userFldActionPerformed(evt);
+            }
+        });
+
+        enterBtn.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        enterBtn.setText("ENTER");
+        enterBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                enterBtnActionPerformed(evt);
+            }
+        });
+
+        recoverPassBtn.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        recoverPassBtn.setText("RECOVER PASSWORD");
+        recoverPassBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                recoverPassBtnActionPerformed(evt);
+            }
+        });
+
+        pinLabel.setText("Enter username to access field below.");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(passRecBackBtn)
-                .addContainerGap(322, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(passRecBackBtn)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 739, Short.MAX_VALUE)
+                        .addGap(23, 23, 23))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(recoverPassBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(userFld)
+                        .addContainerGap())
+                    .addComponent(enterBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(pinLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(pinFld))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(passRecBackBtn)
-                .addContainerGap(272, Short.MAX_VALUE))
+                .addGap(30, 30, 30)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
+                .addComponent(userFld, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(recoverPassBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addComponent(pinLabel)
+                .addGap(18, 18, 18)
+                .addComponent(pinFld, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(enterBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(16, Short.MAX_VALUE))
         );
+
+        pinFld.getAccessibleContext().setAccessibleName("PIN");
     }// </editor-fold>//GEN-END:initComponents
 
     private void passRecBackBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passRecBackBtnActionPerformed
@@ -60,8 +157,75 @@ public class PasswordRecovery extends javax.swing.JPanel {
         frame.loginNav();
     }//GEN-LAST:event_passRecBackBtnActionPerformed
 
+    private void pinFldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pinFldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pinFldActionPerformed
+
+    private void userFldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userFldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_userFldActionPerformed
+
+    private void enterBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enterBtnActionPerformed
+        if(pinFld.getText().equals(pin)){
+            
+        }else{
+            pinLabel.setText("Invalid PIN.");
+        }
+    }//GEN-LAST:event_enterBtnActionPerformed
+    private static final SecureRandom secureRandom = new SecureRandom(); 
+    private static final Base64.Encoder base64Encoder = Base64.getUrlEncoder();
+    
+    private void recoverPassBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recoverPassBtnActionPerformed
+        // TODO add your handling code here:
+        //Check if user exists
+        if(checkIfUserExists()){
+            pin = generateNewToken();
+            pinLabel.setText("Your pin is : " + pin + "  (IMPORTANT NOTE: this should be sent through SMS for obvious security reasons but due to limitations, it is just displayed here for demo purposes only.)");
+            
+            pinFld.setEnabled(true);
+            
+        }
+        else{
+            pinLabel.setText("User does not exist.");
+        }
+        
+        
+    }//GEN-LAST:event_recoverPassBtnActionPerformed
+    
+    public static String generateNewToken() {
+        byte[] randomBytes = new byte[24];
+        secureRandom.nextBytes(randomBytes);
+        return base64Encoder.encodeToString(randomBytes);
+    }
+    private void myInitComponents(){
+        pinLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        pinLabel.setVerticalAlignment(SwingConstants.CENTER);
+        pinFld.setEnabled(false);
+        pinFld.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "PIN", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12)));
+    }
+    
+    private boolean checkIfUserExists(){
+        
+        boolean userExists = false;
+        String currUsername = userFld.getText().toLowerCase();
+        
+        for (User user : frame.main.sqlite.getUsers()) {
+            if(user.getUsername().toLowerCase().equals(currUsername)){
+                userExists = true;
+                break;
+            }
+        }
+        return userExists;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton enterBtn;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JButton passRecBackBtn;
+    private javax.swing.JTextField pinFld;
+    private javax.swing.JLabel pinLabel;
+    private javax.swing.JButton recoverPassBtn;
+    private javax.swing.JTextField userFld;
     // End of variables declaration//GEN-END:variables
 }
