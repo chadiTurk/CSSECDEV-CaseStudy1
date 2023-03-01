@@ -209,6 +209,7 @@ public class Frame extends javax.swing.JFrame {
     
     //Password Recovery
     public PasswordRecovery passRecPnl = new PasswordRecovery();
+    public PasswordUpdate passUpdatePnl = new PasswordUpdate();
     
     private AdminHome adminHomePnl = new AdminHome();
     private ManagerHome managerHomePnl = new ManagerHome();
@@ -227,6 +228,7 @@ public class Frame extends javax.swing.JFrame {
         loginPnl.frame = this;
         registerPnl.frame = this;
         passRecPnl.frame = this;
+        passUpdatePnl.frame = this;
         
         adminHomePnl.init(main.sqlite);
         clientHomePnl.init(main.sqlite);
@@ -238,6 +240,7 @@ public class Frame extends javax.swing.JFrame {
         Container.add(registerPnl, "registerPnl");
         Container.add(HomePnl, "homePnl");
         Container.add(passRecPnl,"passRecPnl");
+        Container.add(passUpdatePnl,"passUpdatePnl");
         frameView.show(Container, "loginPnl");
         
         Content.setLayout(contentView);
@@ -263,6 +266,10 @@ public class Frame extends javax.swing.JFrame {
     
     public void passRecNav(){
         frameView.show(Container,"passRecPnl");
+    }
+    
+    public void passUpdateNav(){
+        frameView.show(Container,"passUpdatePnl");
     }
     
     public void registerAction(String username, String password, String confpass){
