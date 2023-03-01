@@ -109,9 +109,8 @@ public class Register extends javax.swing.JPanel {
         if(checkIfEmailAndIsValid(currUsername).equals("InvalidEmail")){
             JOptionPane.showMessageDialog(this
                     , "Please enter a valid email address.",
-                               "Error", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
+                               "Error", JOptionPane.WARNING_MESSAGE); 
+       }
         
         for (User user : frame.main.sqlite.getUsers()) {
             if(user.getUsername().toLowerCase().equals(currUsername)){
