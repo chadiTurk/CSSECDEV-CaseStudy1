@@ -139,6 +139,8 @@ public class PasswordUpdate extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this
                     , "Password has updated successfully..",
                                "Updated", JOptionPane.INFORMATION_MESSAGE);
+            passwordFld.setText("");
+            confpassFld.setText("");
             frame.loginNav();
         }
 
