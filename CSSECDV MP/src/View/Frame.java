@@ -1,5 +1,6 @@
 package View;
 
+import Model.User;
 import Controller.Main;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;

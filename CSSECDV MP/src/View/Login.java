@@ -1,5 +1,7 @@
 
 package View;
+import Model.User;
+import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JPanel {
 
@@ -95,7 +97,12 @@ public class Login extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
-        frame.mainNav();
+       if(checkIfCorrectPassword() && checkIfUserExists()){
+           frame.mainNav();
+       }
+       else{
+       JOptionPane.showMessageDialog(this, "Invalid Username or Password!");
+       }
     }//GEN-LAST:event_loginBtnActionPerformed
 
     private void registerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerBtnActionPerformed
@@ -106,6 +113,33 @@ public class Login extends javax.swing.JPanel {
        frame.passRecNav();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private boolean checkIfUserExists(){
+        
+        boolean userExists = false;
+        String currUsername = usernameFld.getText().toLowerCase();
+        
+        for (User user : frame.main.sqlite.getUsers()) {
+            if(user.getUsername().toLowerCase().equals(currUsername)){
+                userExists = true;
+                break;
+            }
+        }
+        return userExists;
+    }
+    
+        private boolean checkIfCorrectPassword(){
+        
+        boolean correctPassword = false;
+        String password = passwordFld.getText();
+        
+        for (User user : frame.main.sqlite.getUsers()) {
+            if(user.getPassword().equals(password)){
+                correctPassword = true;
+                break;
+            }
+        }
+        return correctPassword;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
