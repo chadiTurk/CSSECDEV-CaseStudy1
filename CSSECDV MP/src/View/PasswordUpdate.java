@@ -38,8 +38,8 @@ public class PasswordUpdate extends javax.swing.JPanel {
 
         backBtn = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        passwordFld = new javax.swing.JTextField();
-        confpassFld = new javax.swing.JTextField();
+        passwordFld = new javax.swing.JPasswordField();
+        confpassFld = new javax.swing.JPasswordField();
         updatePassBtn = new javax.swing.JButton();
 
         backBtn.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -64,6 +64,11 @@ public class PasswordUpdate extends javax.swing.JPanel {
         confpassFld.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         confpassFld.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         confpassFld.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "CONFIRM PASSWORD", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
+        confpassFld.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confpassFldActionPerformed(evt);
+            }
+        });
 
         updatePassBtn.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         updatePassBtn.setText("UPDATE PASSWORD");
@@ -150,6 +155,10 @@ public class PasswordUpdate extends javax.swing.JPanel {
         }
 
     }//GEN-LAST:event_updatePassBtnActionPerformed
+
+    private void confpassFldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confpassFldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_confpassFldActionPerformed
     
     public void setUserName(String username){
         usernameUpdate= username;
