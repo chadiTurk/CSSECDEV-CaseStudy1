@@ -1,5 +1,6 @@
 
 package View;
+import Model.BCrypt;
 import Model.User;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -144,8 +145,9 @@ public class Register extends javax.swing.JPanel {
                                "Error", JOptionPane.WARNING_MESSAGE);
         }
         else{
-            //Add user to database
-            frame.registerAction(usernameFld.getText().toLowerCase(), passwordFld.getText(), confpassFld.getText());
+            //Add user to database with hash password
+            String hashedPassword = BCrypt.hashpw(passwordFld.getText(), BCrypt.gensalt(12));
+            frame.registerAction(usernameFld.getText().toLowerCase(), hashedPassword, confpassFld.getText());
             usernameFld.setText(null);
             passwordFld.setText(null);
             confpassFld.setText(null);
