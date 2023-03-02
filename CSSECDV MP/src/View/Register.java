@@ -131,12 +131,13 @@ public class Register extends javax.swing.JPanel {
                     , "Passwords do not match.",
                                "Error", JOptionPane.WARNING_MESSAGE);
         }
-        //If password is less than 8 characters
-        else if(passwordFld.getText().length() < 8){
+        //If password is weak
+        else if(!checkPasswordStrength(passwordFld.getText())){
               JOptionPane.showMessageDialog(this
-                    , "Password is weak, it must be at least 8 characters.",
+                    , "Password is weak, must be greater than or equal to 8 characters. Must contain at least one uppper,lowercase,numeric,and special character..",
                                "Error", JOptionPane.WARNING_MESSAGE);
         }
+        //If password is too long
         else if(passwordFld.getText().length() > 64){
               JOptionPane.showMessageDialog(this
                     , "Password should not exceed 64 charactersd.",
@@ -159,7 +160,16 @@ public class Register extends javax.swing.JPanel {
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
         frame.loginNav();
     }//GEN-LAST:event_backBtnActionPerformed
-    
+    private boolean checkPasswordStrength(String password){
+        
+        Pattern patternCheckStrongPassword = Pattern.compile("(?=^.{8,}$)(?=.*\\d)(?=.*[!@#$%^&*]+)(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$");
+        Matcher matcherCheckStrongPassword = patternCheckStrongPassword.matcher(password);
+        
+        boolean passwordIsStrong = matcherCheckStrongPassword.find();
+        
+        return passwordIsStrong;
+        
+    }
     private String checkIfEmailAndIsValid(String currUsername){
         
         Pattern patternCheckEmail = Pattern.compile("@");
