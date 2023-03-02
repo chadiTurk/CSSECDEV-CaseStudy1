@@ -135,7 +135,7 @@ public class Register extends javax.swing.JPanel {
         //If password is weak
         else if(!checkPasswordStrength(passwordFld.getText())){
               JOptionPane.showMessageDialog(this
-                    , "Password is weak, must be greater than or equal to 8 characters. Must contain at least one uppper,lowercase,numeric,and special character..",
+                    , "Password is weak, must be greater than or equal to 8 characters. Must contain at least one uppper,lowercase,numeric,and special character.",
                                "Error", JOptionPane.WARNING_MESSAGE);
         }
         //If password is too long

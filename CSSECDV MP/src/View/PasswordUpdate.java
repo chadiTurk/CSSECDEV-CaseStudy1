@@ -1,5 +1,8 @@
 package View;
 
+import Model.BCrypt;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 /*
@@ -122,12 +125,13 @@ public class PasswordUpdate extends javax.swing.JPanel {
                     , "Passwords do not match.",
                                "Error", JOptionPane.WARNING_MESSAGE);
         }
-        //If password is less than 8 characters
-        else if(passwordFld.getText().length() < 8){
+        //If password is weak
+        else if(!checkPasswordStrength(passwordFld.getText())){
               JOptionPane.showMessageDialog(this
-                    , "Password is weak, it must be at least 8 characters.",
+                    , "Password is weak, must be greater than or equal to 8 characters. Must contain at least one uppper,lowercase,numeric,and special character.",
                                "Error", JOptionPane.WARNING_MESSAGE);
         }
+        //If password is too long
         else if(passwordFld.getText().length() > 64){
               JOptionPane.showMessageDialog(this
                     , "Password should not exceed 64 charactersd.",
@@ -135,7 +139,8 @@ public class PasswordUpdate extends javax.swing.JPanel {
         }
         else{
             System.out.println("username val: " + usernameUpdate);
-            frame.updateAction(usernameUpdate, passwordFld.getText());
+            String hashedPassword = BCrypt.hashpw(passwordFld.getText(), BCrypt.gensalt(12));
+            frame.updateAction(usernameUpdate, hashedPassword);
             JOptionPane.showMessageDialog(this
                     , "Password has updated successfully..",
                                "Updated", JOptionPane.INFORMATION_MESSAGE);
@@ -148,6 +153,17 @@ public class PasswordUpdate extends javax.swing.JPanel {
     
     public void setUserName(String username){
         usernameUpdate= username;
+    }
+    
+    private boolean checkPasswordStrength(String password){
+        
+        Pattern patternCheckStrongPassword = Pattern.compile("(?=^.{8,}$)(?=.*\\d)(?=.*[!@#$%^&*]+)(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$");
+        Matcher matcherCheckStrongPassword = patternCheckStrongPassword.matcher(password);
+        
+        boolean passwordIsStrong = matcherCheckStrongPassword.find();
+        
+        return passwordIsStrong;
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
