@@ -2,6 +2,7 @@
 package View;
 import Model.User;
 import javax.swing.JOptionPane;
+import Model.BCrypt;
 
 public class Login extends javax.swing.JPanel {
 
@@ -97,7 +98,7 @@ public class Login extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
-       if(checkIfCorrectPassword() && checkIfUserExists()){
+       if(checkIfUserExists()){
            frame.mainNav();
        }
        else{
@@ -117,28 +118,23 @@ public class Login extends javax.swing.JPanel {
         
         boolean userExists = false;
         String currUsername = usernameFld.getText().toLowerCase();
+        String password = passwordFld.getText();
+        String hashedPassword;
         
         for (User user : frame.main.sqlite.getUsers()) {
-            if(user.getUsername().toLowerCase().equals(currUsername)){
+            if(currUsername.toLowerCase().equals("admin") || currUsername.toLowerCase().equals("manager") || 
+               currUsername.toLowerCase().equals("staff") || currUsername.toLowerCase().equals("client1") || currUsername.toLowerCase().equals("client2")){
+                hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12));
+            }
+            else{
+                hashedPassword = user.getPassword();}
+            
+            if(user.getUsername().toLowerCase().equals(currUsername)&& BCrypt.checkpw(password, hashedPassword)){
                 userExists = true;
                 break;
             }
         }
         return userExists;
-    }
-    
-        private boolean checkIfCorrectPassword(){
-        
-        boolean correctPassword = false;
-        String password = passwordFld.getText();
-        
-        for (User user : frame.main.sqlite.getUsers()) {
-            if(user.getPassword().equals(password)){
-                correctPassword = true;
-                break;
-            }
-        }
-        return correctPassword;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
