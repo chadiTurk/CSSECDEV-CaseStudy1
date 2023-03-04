@@ -40,9 +40,9 @@ public class Main {
         sqlite.createUserTable();
         
         // Add sample history
-        sqlite.addHistory("admin", "Antivirus", 1, "2019-04-03 14:30:00.000");
-        sqlite.addHistory("manager", "Firewall", 1, "2019-04-03 14:30:01.000");
-        sqlite.addHistory("staff", "Scanner", 1, "2019-04-03 14:30:02.000");
+        sqlite.addHistory("adminAccount123", "Antivirus", 1, "2019-04-03 14:30:00.000");
+        sqlite.addHistory("managerAccount123", "Firewall", 1, "2019-04-03 14:30:01.000");
+        sqlite.addHistory("staffAccount123", "Scanner", 1, "2019-04-03 14:30:02.000");
         
         // Add sample logs
         sqlite.addLogs("NOTICE", "admin", "User creation successful", new Timestamp(new Date().getTime()).toString());
@@ -55,9 +55,9 @@ public class Main {
         sqlite.addProduct("Scanner", 10, 100.0);
 
         // Add sample users
-        sqlite.addUser("admin", "qwerty1234" , 5);
-        sqlite.addUser("manager", "qwerty1234", 4);
-        sqlite.addUser("staff", "qwerty1234", 3);
+        sqlite.addUser("admin", "adminPassSecure23!" , 5);
+        sqlite.addUser("manager", "managerPassSecure4914!", 4);
+        sqlite.addUser("staff", "staffPassSecure123192*", 3);
         sqlite.addUser("client1", "qwerty1234", 2);
         sqlite.addUser("client2", "qwerty1234", 2);
         

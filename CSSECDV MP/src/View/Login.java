@@ -121,7 +121,7 @@ public class Login extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(this, "Invalid Username or Password!");
         }
         else if(userIsLocked){
-           JOptionPane.showMessageDialog(this, "Account has been locked!");
+           JOptionPane.showMessageDialog(this, "Invalid Username or Password!");
 
         }
         else{
