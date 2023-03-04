@@ -9,6 +9,9 @@ public class Login extends javax.swing.JPanel {
     public Frame frame;
     public PasswordRecovery passRec = new PasswordRecovery();
     private int userRole;
+    private boolean userExists = false;
+    private int currLockVal = 0;
+    private boolean userIsLocked = false;
     
     public Login() {
         initComponents();
@@ -99,19 +102,33 @@ public class Login extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
-       if(checkIfUserExists()){
-           usernameFld.setText("");
-           passwordFld.setText("");
-           frame.mainNav();
-           
-           if(userRole == 5){
-               JOptionPane.showMessageDialog(this, "Invalid Username or Password!");
-           }
+        
 
-       }
-       else{
-       JOptionPane.showMessageDialog(this, "Invalid Username or Password!");
-       }
+         if(checkIfUserExists() && userExists && userIsLocked == false){
+            
+            usernameFld.setText("");
+            passwordFld.setText("");
+            frame.mainNav();
+            
+            frame.updateLockedVal(usernameFld.getText().toLowerCase(), 0);
+
+            if(userRole == 5){
+                JOptionPane.showMessageDialog(this, "Invalid Username or Password!");
+            }
+
+        }
+        else if(userExists == false){
+        JOptionPane.showMessageDialog(this, "Invalid Username or Password!");
+        }
+        else if(userIsLocked){
+           JOptionPane.showMessageDialog(this, "Account has been locked!");
+
+        }
+        else{
+            frame.updateLockedVal(usernameFld.getText().toLowerCase(), currLockVal + 1);
+            JOptionPane.showMessageDialog(this, "Invalid Username or Password!");
+        }
+       
     }//GEN-LAST:event_loginBtnActionPerformed
 
     private void registerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerBtnActionPerformed
@@ -124,7 +141,7 @@ public class Login extends javax.swing.JPanel {
 
     private boolean checkIfUserExists(){
         
-        boolean userExists = false;
+        boolean correctUser = false;
         String currUsername = usernameFld.getText().toLowerCase();
         String password = passwordFld.getText();
         String hashedPassword;
@@ -133,18 +150,33 @@ public class Login extends javax.swing.JPanel {
             if(currUsername.toLowerCase().equals("admin") || currUsername.toLowerCase().equals("manager") || 
                currUsername.toLowerCase().equals("staff") || currUsername.toLowerCase().equals("client1") || currUsername.toLowerCase().equals("client2")){
                 hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12));
+                
             }
             else{
                 hashedPassword = user.getPassword();}
             
-            if(user.getUsername().toLowerCase().equals(currUsername)&& BCrypt.checkpw(password, hashedPassword)){
+            if(user.getUsername().toLowerCase().equals(currUsername)){
                 userExists = true;
+                currLockVal = user.getLocked();
+                if(currLockVal >= 3){
+                    userIsLocked = true;
+
+                }
+                else{
+                    userIsLocked = false;
+                }
+            }
+            
+            if(user.getUsername().toLowerCase().equals(currUsername)&& BCrypt.checkpw(password, hashedPassword)){
+                correctUser = true;
                 userRole = user.getRole();
                 break;
             }
         }
-        return userExists;
+        return correctUser;
     }
+    
+ 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

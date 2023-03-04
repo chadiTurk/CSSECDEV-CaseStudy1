@@ -286,6 +286,10 @@ public class Frame extends javax.swing.JFrame {
     public void updateAction(String username, String password){
         main.sqlite.updatePassword(username, password);
     }
+    
+    public void updateLockedVal(String username,int val){
+        main.sqlite.addLockValue(username, val);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Container;

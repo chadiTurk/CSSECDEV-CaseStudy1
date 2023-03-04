@@ -339,4 +339,24 @@ public class SQLite {
         }
        
     }
+    
+    //Increment Lock
+    
+    public void addLockValue(String username,int locked){
+       String sql = "UPDATE users SET locked=? WHERE username=?";
+       ArrayList<User> users = getUsers();
+       
+        try{
+            Connection conn = DriverManager.getConnection(driverURL);
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1,locked);
+            statement.setString(2,username);
+            System.out.println(statement.executeUpdate());
+        }
+        catch (SQLException ex) {
+            System.out.print(ex);
+        }
+       
+    }
+    
 }
