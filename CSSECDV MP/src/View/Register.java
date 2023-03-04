@@ -12,6 +12,7 @@ public class Register extends javax.swing.JPanel {
     
     public Register() {
         initComponents();
+        otherInitComponents();
     }
 
     @SuppressWarnings("unchecked")
@@ -24,6 +25,7 @@ public class Register extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         confpassFld = new javax.swing.JPasswordField();
         backBtn = new javax.swing.JButton();
+        phoneNumberFld = new javax.swing.JTextField();
 
         registerBtn.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         registerBtn.setText("REGISTER");
@@ -61,6 +63,11 @@ public class Register extends javax.swing.JPanel {
             }
         });
 
+        phoneNumberFld.setBackground(new java.awt.Color(240, 240, 240));
+        phoneNumberFld.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        phoneNumberFld.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        phoneNumberFld.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "USERNAME", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -71,7 +78,8 @@ public class Register extends javax.swing.JPanel {
                     .addComponent(usernameFld)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(passwordFld, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(confpassFld, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addComponent(confpassFld, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(phoneNumberFld))
                 .addContainerGap(200, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -89,15 +97,17 @@ public class Register extends javax.swing.JPanel {
                 .addComponent(backBtn)
                 .addGap(24, 24, 24)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(usernameFld, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(passwordFld, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(confpassFld, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(1, 1, 1)
+                .addComponent(phoneNumberFld, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(registerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -119,14 +129,9 @@ public class Register extends javax.swing.JPanel {
                 break;
             }
         }
-        //If user id already exists
-        if(userExists){
-            JOptionPane.showMessageDialog(this
-                    , "Username already exists, please enter a unique name.",
-                               "Error", JOptionPane.WARNING_MESSAGE);
-        }
+
         //If passwords do not match
-        else if(!passwordFld.getText().equals(confpassFld.getText()))
+        if(!passwordFld.getText().equals(confpassFld.getText()))
         {
              JOptionPane.showMessageDialog(this
                     , "Passwords do not match.",
@@ -141,16 +146,25 @@ public class Register extends javax.swing.JPanel {
         //If password is too long
         else if(passwordFld.getText().length() > 64){
               JOptionPane.showMessageDialog(this
-                    , "Password should not exceed 64 charactersd.",
+                    , "Password should not exceed 64 characters.",
+                               "Error", JOptionPane.WARNING_MESSAGE);
+        }
+        else if(!checkValidPhoneNumber()){
+              JOptionPane.showMessageDialog(this
+                    , "Please enter a valid phone number.",
                                "Error", JOptionPane.WARNING_MESSAGE);
         }
         else{
             //Add user to database with hash password
             String hashedPassword = BCrypt.hashpw(passwordFld.getText(), BCrypt.gensalt(12));
             frame.registerAction(usernameFld.getText().toLowerCase(), hashedPassword, confpassFld.getText());
+            JOptionPane.showMessageDialog(this
+                    , "An SMS to activate your account has been sent to the phone number provided.",
+                               "", JOptionPane.INFORMATION_MESSAGE);
             usernameFld.setText(null);
             passwordFld.setText(null);
             confpassFld.setText(null);
+            phoneNumberFld.setText(null);
             frame.loginNav();
         }
         
@@ -201,10 +215,16 @@ public class Register extends javax.swing.JPanel {
         else{
             return "NotAnEmail";
         }
-            
+    }
+    
+    private boolean checkValidPhoneNumber(){
+        Pattern patternCheckValidNumber = Pattern.compile("^\\s*(?:\\+?(\\d{1,3}))?[-. (]*(\\d{3})[-. )]*(\\d{3})[-. ]*(\\d{4})(?: *x(\\d+))?\\s*$");
+        Matcher matcherCheckValidNumber = patternCheckValidNumber.matcher(phoneNumberFld.getText());
         
-        
-
+        return matcherCheckValidNumber.find();
+    }
+    private void otherInitComponents(){
+        phoneNumberFld.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "PHONE NUMBER", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12)));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -212,6 +232,7 @@ public class Register extends javax.swing.JPanel {
     private javax.swing.JTextField confpassFld;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JTextField passwordFld;
+    private javax.swing.JTextField phoneNumberFld;
     private javax.swing.JButton registerBtn;
     private javax.swing.JTextField usernameFld;
     // End of variables declaration//GEN-END:variables

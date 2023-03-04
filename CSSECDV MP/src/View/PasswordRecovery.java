@@ -190,13 +190,13 @@ public class PasswordRecovery extends javax.swing.JPanel {
         //Check if user exists
         if(checkIfUserExists()){
             pin = generateNewToken();
-            pinLabel.setText("Your pin is : " + pin + "  (IMPORTANT NOTE: this should be sent through SMS for obvious security reasons but due to limitations, it is just displayed here for demo purposes only.)");
+            pinLabel.setText("If that user is in our database, we will send you a pin through SMS to reset your password.\nYour pin is : " + pin + "  (IMPORTANT NOTE: this should be sent through SMS for obvious security reasons but due to limitations, it is just displayed here for demo purposes only.)");
             
             pinFld.setEnabled(true);
             
         }
         else{
-            pinLabel.setText("User does not exist.");
+            pinLabel.setText("If that user is in our database, we will send you a pin to reset your password.");
         }
         
         
