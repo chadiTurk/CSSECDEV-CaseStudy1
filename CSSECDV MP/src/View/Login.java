@@ -8,6 +8,7 @@ public class Login extends javax.swing.JPanel {
 
     public Frame frame;
     public PasswordRecovery passRec = new PasswordRecovery();
+    private int userRole;
     
     public Login() {
         initComponents();
@@ -99,7 +100,14 @@ public class Login extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
        if(checkIfUserExists()){
+           usernameFld.setText("");
+           passwordFld.setText("");
            frame.mainNav();
+           
+           if(userRole == 5){
+               JOptionPane.showMessageDialog(this, "Invalid Username or Password!");
+           }
+
        }
        else{
        JOptionPane.showMessageDialog(this, "Invalid Username or Password!");
@@ -131,6 +139,7 @@ public class Login extends javax.swing.JPanel {
             
             if(user.getUsername().toLowerCase().equals(currUsername)&& BCrypt.checkpw(password, hashedPassword)){
                 userExists = true;
+                userRole = user.getRole();
                 break;
             }
         }

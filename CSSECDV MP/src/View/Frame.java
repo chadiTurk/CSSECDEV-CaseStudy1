@@ -242,6 +242,7 @@ public class Frame extends javax.swing.JFrame {
         Container.add(HomePnl, "homePnl");
         Container.add(passRecPnl,"passRecPnl");
         Container.add(passUpdatePnl,"passUpdatePnl");
+        Container.add(clientHomePnl,"clientHomePnlNav");
         frameView.show(Container, "loginPnl");
         
         Content.setLayout(contentView);
@@ -267,6 +268,10 @@ public class Frame extends javax.swing.JFrame {
     
     public void passRecNav(){
         frameView.show(Container,"passRecPnl");
+    }
+    
+    public void clientNav(){
+        contentView.show(Content,"clientHomePnl");
     }
     
     public void passUpdateNav(String username){
