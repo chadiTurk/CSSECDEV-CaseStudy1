@@ -255,6 +255,10 @@ public class MgmtProduct extends javax.swing.JPanel {
     public void disableButtonsforStaffUser(){
         purchaseBtn.setVisible(false);
     }
+    
+    public void dissableButtonsforManagerUser(){
+        purchaseBtn.setVisible(false);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addBtn;
