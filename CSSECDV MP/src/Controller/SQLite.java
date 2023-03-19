@@ -172,10 +172,10 @@ public class SQLite {
     
     public void addProduct(String name, int stock, double price) {
         String sql = "INSERT INTO product(name,stock,price) VALUES('" + name + "','" + stock + "','" + price + "')";
-        
         try (Connection conn = DriverManager.getConnection(driverURL);
             Statement stmt = conn.createStatement()){
             stmt.execute(sql);
+            System.out.println("ADDED PRODUCT");
         } catch (Exception ex) {
             System.out.print(ex);
         }
