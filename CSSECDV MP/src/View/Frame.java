@@ -250,12 +250,38 @@ public class Frame extends javax.swing.JFrame {
         Content.add(managerHomePnl, "managerHomePnl");
         Content.add(staffHomePnl, "staffHomePnl");
         Content.add(clientHomePnl, "clientHomePnl");
-        
         this.setVisible(true);
     }
     
     public void mainNav(){
         frameView.show(Container, "homePnl");
+        
+    }
+    
+    public void mainNav(int userRole){
+        frameView.show(Container, "homePnl");
+        checkUserRole(userRole);
+    }
+    
+    public void checkUserRole(int role){
+        switch (role) {
+            case 1:
+                
+                break;
+            case 2:
+                clientView();
+                break;
+            default:
+                throw new AssertionError();
+        }
+    }
+    
+    private void clientView(){
+        adminBtn.setVisible(false);
+        managerBtn.setVisible(false);
+        staffBtn.setVisible(false);
+        clientHomePnl.showPnl("home");
+        contentView.show(Content, "clientHomePnl");
     }
     
     public void loginNav(){
@@ -290,6 +316,8 @@ public class Frame extends javax.swing.JFrame {
     public void updateLockedVal(String username,int val){
         main.sqlite.addLockValue(username, val);
     }
+    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Container;

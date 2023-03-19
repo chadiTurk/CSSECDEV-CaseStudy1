@@ -108,7 +108,7 @@ public class Login extends javax.swing.JPanel {
             
             usernameFld.setText("");
             passwordFld.setText("");
-            frame.mainNav();
+            frame.mainNav(userRole);
             
             frame.updateLockedVal(usernameFld.getText().toLowerCase(), 0);
 
