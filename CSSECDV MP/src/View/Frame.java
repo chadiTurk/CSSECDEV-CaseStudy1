@@ -196,7 +196,7 @@ public class Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_staffBtnActionPerformed
 
     private void clientBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientBtnActionPerformed
-        clientHomePnl.showPnl("home");
+        clientHomePnl.showPnl("home",currentUser,userRole);
         contentView.show(Content, "clientHomePnl");
     }//GEN-LAST:event_clientBtnActionPerformed
 
@@ -219,6 +219,10 @@ public class Frame extends javax.swing.JFrame {
     
     private CardLayout contentView = new CardLayout();
     private CardLayout frameView = new CardLayout();
+    
+    //Current username
+    private String currentUser;
+    private int userRole;
     
     public void init(Main controller){
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -251,6 +255,8 @@ public class Frame extends javax.swing.JFrame {
         Content.add(staffHomePnl, "staffHomePnl");
         Content.add(clientHomePnl, "clientHomePnl");
         this.setVisible(true);
+        
+        
     }
     
     public void mainNav(){
@@ -258,8 +264,10 @@ public class Frame extends javax.swing.JFrame {
         
     }
     
-    public void mainNav(int userRole){
+    public void mainNav(int userRole,String username){
         frameView.show(Container, "homePnl");
+        currentUser = username;
+        this.userRole = userRole;
         checkUserRole(userRole);
     }
     
@@ -280,7 +288,7 @@ public class Frame extends javax.swing.JFrame {
         adminBtn.setVisible(false);
         managerBtn.setVisible(false);
         staffBtn.setVisible(false);
-        clientHomePnl.showPnl("home");
+        clientHomePnl.showPnl("home",currentUser,userRole);
         contentView.show(Content, "clientHomePnl");
     }
     

@@ -22,6 +22,9 @@ public class MgmtHistory extends javax.swing.JPanel {
     public SQLite sqlite;
     public DefaultTableModel tableModel;
     
+    private String userName;
+    private int userRole;
+    
     public MgmtHistory(SQLite sqlite) {
         initComponents();
         this.sqlite = sqlite;
@@ -46,7 +49,28 @@ public class MgmtHistory extends javax.swing.JPanel {
         }
         
 //      LOAD CONTENTS
-        ArrayList<History> history = sqlite.getHistory();
+        loadContents();
+        
+
+    }
+    public void loadContents(){
+        if(userRole == 2){
+            ArrayList<History> history = sqlite.getUserHistory(userName);
+            getHistoryList(history);
+        }
+        else{
+            ArrayList<History> history = sqlite.getHistory();
+            getHistoryList(history);
+        }
+    }
+    
+    public void setCurrUser(int userRole,String userName){
+        this.userRole = userRole;
+        this.userName = userName;
+    }
+    
+    private void getHistoryList(ArrayList<History> history){
+        
         for(int nCtr = 0; nCtr < history.size(); nCtr++){
             Product product = sqlite.getProduct(history.get(nCtr).getName());
             tableModel.addRow(new Object[]{

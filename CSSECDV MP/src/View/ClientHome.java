@@ -28,6 +28,9 @@ public class ClientHome extends javax.swing.JPanel {
     
     private CardLayout contentView = new CardLayout();
     
+    private String currentUser;
+    private int userRole;
+    
     public ClientHome() {
         initComponents();
     }
@@ -52,8 +55,11 @@ public class ClientHome extends javax.swing.JPanel {
           logsBtn.setVisible(false);
     }
     
-    public void showPnl(String panelName){
+    public void showPnl(String panelName,String userName,int userRole){
+        currentUser = userName;
+        this.userRole = userRole;
         contentView.show(Content, panelName);
+        
     }
 
     /**
@@ -175,12 +181,14 @@ public class ClientHome extends javax.swing.JPanel {
     }//GEN-LAST:event_productsBtnActionPerformed
 
     private void historyBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historyBtnActionPerformed
+        mgmtHistory.setCurrUser(userRole, currentUser);
         mgmtHistory.init();
         usersBtn.setForeground(Color.black);
         productsBtn.setForeground(Color.black);
         historyBtn.setForeground(Color.red);
         logsBtn.setForeground(Color.black);
         contentView.show(Content, "mgmtHistory");
+        
     }//GEN-LAST:event_historyBtnActionPerformed
 
     private void logsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logsBtnActionPerformed

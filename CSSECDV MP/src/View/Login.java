@@ -103,12 +103,12 @@ public class Login extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
         
-
+        String currUsername = usernameFld.getText().toLowerCase();
          if(checkIfUserExists() && userExists && userIsLocked == false){
             
             usernameFld.setText("");
             passwordFld.setText("");
-            frame.mainNav(userRole);
+            frame.mainNav(userRole,currUsername);
             
             frame.updateLockedVal(usernameFld.getText().toLowerCase(), 0);
 
