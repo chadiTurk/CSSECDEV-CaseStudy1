@@ -106,15 +106,18 @@ public class Login extends javax.swing.JPanel {
         String currUsername = usernameFld.getText().toLowerCase();
          if(checkIfUserExists() && userExists && userIsLocked == false){
             
+//            if(userRole == 5){
+//                JOptionPane.showMessageDialog(this, "Invalid Username or Password!");
+//                  return;
+//            }
+//            
+               
             usernameFld.setText("");
             passwordFld.setText("");
             frame.mainNav(userRole,currUsername);
             
             frame.updateLockedVal(usernameFld.getText().toLowerCase(), 0);
 
-            if(userRole == 5){
-                JOptionPane.showMessageDialog(this, "Invalid Username or Password!");
-            }
 
         }
         else if(userExists == false){

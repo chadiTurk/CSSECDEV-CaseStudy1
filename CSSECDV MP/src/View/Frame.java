@@ -272,6 +272,7 @@ public class Frame extends javax.swing.JFrame {
     }
     
     public void checkUserRole(int role){
+        System.out.println("Current user role: " + role);
         switch (role) {
             case 1:
                 
@@ -279,17 +280,54 @@ public class Frame extends javax.swing.JFrame {
             case 2:
                 clientView();
                 break;
+            case 3:
+                staffView();
+                break;
+            case 4:
+                managerView();
+                break;
+            case 5:
+                adminView();
+                break;
             default:
                 throw new AssertionError();
         }
     }
     
     private void clientView(){
+        clientBtn.setVisible(true);
         adminBtn.setVisible(false);
         managerBtn.setVisible(false);
         staffBtn.setVisible(false);
         clientHomePnl.showPnl("home",currentUser,userRole);
         contentView.show(Content, "clientHomePnl");
+    }
+    
+    private void staffView(){
+        staffBtn.setVisible(true);
+        adminBtn.setVisible(false);
+        managerBtn.setVisible(false);
+        clientBtn.setVisible(false);
+        staffHomePnl.showPnl("home");
+        contentView.show(Content, "staffHomePnl");
+    }
+    
+    private void managerView(){
+        managerBtn.setVisible(true);
+        adminBtn.setVisible(false);
+        staffBtn.setVisible(false);
+        clientBtn.setVisible(false);
+        managerHomePnl.showPnl("home");
+        contentView.show(Content,"managerHomePnl");
+    }
+    
+    private void adminView(){
+        adminBtn.setVisible(true);
+        managerBtn.setVisible(false);
+        staffBtn.setVisible(false);
+        clientBtn.setVisible(false);
+        adminHomePnl.showPnl("home");
+        contentView.show(Content,"adminHomePnl");
     }
     
     public void loginNav(){
