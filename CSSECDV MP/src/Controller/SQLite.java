@@ -149,6 +149,7 @@ public class SQLite {
     }
     
     public void addHistory(String username, String name, int stock, String timestamp) {
+        System.out.println("CURR TIME STAMP IN DB: " + timestamp);
         String sql = "INSERT INTO history(username,name,stock,timestamp) VALUES('" + username + "','" + name + "','" + stock + "','" + timestamp + "')";
         
         try (Connection conn = DriverManager.getConnection(driverURL);
@@ -379,6 +380,62 @@ public class SQLite {
             System.out.print(ex);
         }
        
+    }
+    
+    //Edit product
+    
+    public void editProduct(String name, int stock, double price){
+       String sql = "UPDATE product SET name=?,stock=?,price=? WHERE name=?";
+       
+        try{
+            Connection conn = DriverManager.getConnection(driverURL);
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1,name);
+            statement.setInt(2,stock);
+            statement.setDouble(3, price);
+            statement.setString(4,name);
+            System.out.println(statement.executeUpdate());
+        }
+        catch (SQLException ex) {
+            System.out.print(ex);
+        }
+       
+    }
+    
+    public void editProductStock(String name, int stock){
+        String sql = "UPDATE product SET stock=? WHERE name=?";
+       
+        try{
+            Connection conn = DriverManager.getConnection(driverURL);
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1,stock);
+            statement.setString(2,name);      
+            System.out.println(statement.executeUpdate());
+        }
+        catch (SQLException ex) {
+            System.out.print(ex);
+        }
+    }
+    
+    public void getProductID(){
+//        String sql = "SELECT id FROM product WHERE name=?";
+//        System.out.println("PRODUCT NAME: " + name);
+//        try (Connection conn = DriverManager.getConnection(driverURL);
+//            Statement stmt = conn.createStatement();
+//            ResultSet rs = stmt.executeQuery(sql)){
+//            System.out.println(rs);
+//            return(rs.getInt("Id"));
+//        } catch (Exception ex) {
+//            System.out.print(ex);
+//            System.out.println("EXCEPTION");
+//        }
+//            return 0;
+        ArrayList<Product> products = getProduct();
+
+        for(int i = 0; i < products.size(); i++) {
+            System.out.println(products.get(i));
+            
+        }
     }
     
 }

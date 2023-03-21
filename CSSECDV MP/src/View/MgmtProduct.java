@@ -7,6 +7,9 @@ package View;
 
 import Controller.SQLite;
 import Model.Product;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -21,6 +24,8 @@ public class MgmtProduct extends javax.swing.JPanel {
 
     public SQLite sqlite;
     public DefaultTableModel tableModel;
+    
+    private String currUser;
     
     public MgmtProduct(SQLite sqlite) {
         initComponents();
@@ -183,9 +188,22 @@ public class MgmtProduct extends javax.swing.JPanel {
             };
 
             int result = JOptionPane.showConfirmDialog(null, message, "PURCHASE PRODUCT", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null);
-
+            int currStock = Integer.parseInt(tableModel.getValueAt(table.getSelectedRow(), 1).toString());
+            int userChoiceStock = Integer.parseInt(stockFld.getText());
+            String productName = tableModel.getValueAt(table.getSelectedRow(), 0).toString();
             if (result == JOptionPane.OK_OPTION) {
-                System.out.println(stockFld.getText());
+                if( userChoiceStock > currStock){
+                    System.out.println("NOT ENOUGH STOCK");
+                }else if(userChoiceStock == currStock){
+                    
+                }
+                else{
+                    sqlite.editProductStock(productName, currStock - userChoiceStock);
+                    String date = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss.SSS").format(LocalDateTime.now()).toString();
+                    System.out.println("CURR DATE : "  + date);
+                    sqlite.addHistory(currUser, productName, userChoiceStock, date);
+                    init();
+                }
             }
         }
     }//GEN-LAST:event_purchaseBtnActionPerformed
@@ -209,7 +227,7 @@ public class MgmtProduct extends javax.swing.JPanel {
             System.out.println(nameFld.getText());
             System.out.println(stockFld.getText());
             System.out.println(priceFld.getText());
-            sqlite.addProduct(nameFld.getText(), Integer.parseInt(stockFld.getText()), Integer.parseInt(priceFld.getText()));
+            sqlite.addProduct(nameFld.getText(), Integer.parseInt(stockFld.getText()), Double.parseDouble(priceFld.getText()));
             init();
         }
     }//GEN-LAST:event_addBtnActionPerformed
@@ -234,6 +252,9 @@ public class MgmtProduct extends javax.swing.JPanel {
                 System.out.println(nameFld.getText());
                 System.out.println(stockFld.getText());
                 System.out.println(priceFld.getText());
+                sqlite.getProductID();
+                sqlite.editProduct(nameFld.getText(), Integer.parseInt(stockFld.getText()), Double.parseDouble(priceFld.getText()));
+                init();
             }
         }
     }//GEN-LAST:event_editBtnActionPerformed
@@ -260,6 +281,10 @@ public class MgmtProduct extends javax.swing.JPanel {
     
     public void dissableButtonsforManagerUser(){
         purchaseBtn.setVisible(false);
+    }
+    
+    public void setUserName(String name){
+        currUser = name;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
