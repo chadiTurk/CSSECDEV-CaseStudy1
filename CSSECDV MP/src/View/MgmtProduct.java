@@ -190,16 +190,20 @@ public class MgmtProduct extends javax.swing.JPanel {
             int result = JOptionPane.showConfirmDialog(null, message, "PURCHASE PRODUCT", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null);
             int currStock = Integer.parseInt(tableModel.getValueAt(table.getSelectedRow(), 1).toString());
             int userChoiceStock = Integer.parseInt(stockFld.getText());
+            String date = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss.SSS").format(LocalDateTime.now()).toString();
             String productName = tableModel.getValueAt(table.getSelectedRow(), 0).toString();
             if (result == JOptionPane.OK_OPTION) {
-                if( userChoiceStock > currStock){
+                if( userChoiceStock > currStock || currStock == 0){
                     System.out.println("NOT ENOUGH STOCK");
                 }else if(userChoiceStock == currStock){
+                    sqlite.addHistory(currUser, productName, userChoiceStock, date);
+                    sqlite.editProductStock(productName, currStock - userChoiceStock);
                     
+                    init();
                 }
                 else{
                     sqlite.editProductStock(productName, currStock - userChoiceStock);
-                    String date = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss.SSS").format(LocalDateTime.now()).toString();
+                    
                     System.out.println("CURR DATE : "  + date);
                     sqlite.addHistory(currUser, productName, userChoiceStock, date);
                     init();
