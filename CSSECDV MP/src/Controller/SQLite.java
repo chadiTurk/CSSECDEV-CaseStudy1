@@ -464,4 +464,21 @@ public class SQLite {
         }
     }
     
+    //Update user role
+    
+    public void editUserRole(int role, String username){
+        String sql = "UPDATE users SET role=? WHERE username=?";
+        
+        try{
+            Connection conn = DriverManager.getConnection(driverURL);
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1,role);
+            statement.setString(2,username);
+            System.out.println(statement.executeUpdate());
+        }
+        catch (SQLException ex) {
+            System.out.print(ex);
+        }
+    }
+    
 }
