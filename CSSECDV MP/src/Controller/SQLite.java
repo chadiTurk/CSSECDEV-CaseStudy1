@@ -70,7 +70,8 @@ public class SQLite {
             + " id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
             + " name TEXT NOT NULL UNIQUE,\n"
             + " stock INTEGER DEFAULT 0,\n"
-            + " price REAL DEFAULT 0.00\n"
+            + " productExists INTEGER DEFAULT 1,\n"
+            + " price REAL DEFAULT 0.00\n" 
             + ");";
 
         try (Connection conn = DriverManager.getConnection(driverURL);
@@ -266,14 +267,14 @@ public class SQLite {
     }
     
     public ArrayList<Product> getProduct(){
-        String sql = "SELECT id, name, stock, price FROM product";
+        String sql = "SELECT id, name, stock, productExists, price FROM product";
         ArrayList<Product> products = new ArrayList<Product>();
         
         try (Connection conn = DriverManager.getConnection(driverURL);
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql)){
             
-            while (rs.next()) {
+            while (rs.next() && rs.getInt("productExists") == 1) {
                 products.add(new Product(rs.getInt("id"),
                                    rs.getString("name"),
                                    rs.getInt("stock"),
@@ -330,15 +331,19 @@ public class SQLite {
     }
     
     public void removeProduct (String name){
-        String sql = "DELETE FROM product WHERE name='" + name + "';";
-
-        try (Connection conn = DriverManager.getConnection(driverURL);
-            Statement stmt = conn.createStatement()) {
-            stmt.execute(sql);
-            System.out.println("Product " + name + " has been deleted.");
-        } catch (Exception ex) {
+        int exists = 0;
+        String sql = "UPDATE product SET productExists=? WHERE name=?";
+        try{
+            Connection conn = DriverManager.getConnection(driverURL);
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1,exists);
+            statement.setString(2,name);
+            System.out.println(statement.executeUpdate());
+        }
+        catch (SQLException ex) {
             System.out.print(ex);
         }
+        
     }
     
     public Product getProduct(String name){

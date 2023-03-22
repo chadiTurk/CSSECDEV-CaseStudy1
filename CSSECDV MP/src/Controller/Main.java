@@ -27,12 +27,12 @@ public class Main {
         // Create a database
         sqlite.createNewDatabase();
 //        
-//        // Drop users table if needed
+        // Drop users table if needed
 //        sqlite.dropHistoryTable();
 //        sqlite.dropLogsTable();
 //        sqlite.dropProductTable();
 //        sqlite.dropUserTable();
-//        
+        
         // Create users table if not exist
         sqlite.createHistoryTable();
         sqlite.createLogsTable();

@@ -15,19 +15,26 @@ public class Product {
     private String name;
     private int stock;
     private float price;
+    private int exists;
     
     public Product(String name, int stock, float price){
         this.name = name;
         this.stock = stock;
         this.price = price;
+        this.exists = 1;
     }
+    
+    
     
     public Product(int id, String name, int stock, float price){
         this.id = id;
         this.name = name;
         this.stock = stock;
         this.price = price;
+        this.exists = 1;
     }
+    
+    
     
     public int getId() {
         return id;
@@ -59,5 +66,9 @@ public class Product {
 
     public void setPrice(float price) {
         this.price = price;
+    }
+    
+    public int getExists(){
+        return this.exists;
     }
 }
