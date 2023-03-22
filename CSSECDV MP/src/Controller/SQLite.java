@@ -173,12 +173,17 @@ public class SQLite {
     }
     
     public void addProduct(String name, int stock, double price) {
-        String sql = "INSERT INTO product(name,stock,price) VALUES('" + name + "','" + stock + "','" + price + "')";
-        try (Connection conn = DriverManager.getConnection(driverURL);
-            Statement stmt = conn.createStatement()){
-            stmt.execute(sql);
-            System.out.println("ADDED PRODUCT");
-        } catch (Exception ex) {
+        String sql = "INSERT INTO product(name,stock,productExists,price) VALUES(?,?,1,?)";
+
+        try{
+            Connection conn = DriverManager.getConnection(driverURL);
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1,name);
+            statement.setInt(2,stock);
+            statement.setDouble(3,price);
+            System.out.println(statement.executeUpdate());
+        }
+        catch (SQLException ex) {
             System.out.print(ex);
         }
     }
@@ -274,11 +279,15 @@ public class SQLite {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql)){
             
-            while (rs.next() && rs.getInt("productExists") == 1) {
+            while (rs.next()) {
+                
+                if(rs.getInt("productExists") == 1){
                 products.add(new Product(rs.getInt("id"),
                                    rs.getString("name"),
                                    rs.getInt("stock"),
                                    rs.getFloat("price")));
+                }
+
             }
         } catch (Exception ex) {
             System.out.print(ex);
