@@ -163,7 +163,6 @@ public class Login extends javax.swing.JPanel {
                 currLockVal = user.getLocked();
                 if(currLockVal >= 3){
                     userIsLocked = true;
-
                 }
                 else{
                     userIsLocked = false;

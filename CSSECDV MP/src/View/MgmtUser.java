@@ -47,11 +47,21 @@ public class MgmtUser extends javax.swing.JPanel {
 //      LOAD CONTENTS
         ArrayList<User> users = sqlite.getUsers();
         for(int nCtr = 0; nCtr < users.size(); nCtr++){
+            int currLockedValue = 0;
+            System.out.println("LOCKED VALUE IN DB = " + users.get(nCtr).getLocked());
+            if(users.get(nCtr).getLocked() < 3){
+                currLockedValue = 0;
+            }
+            else{
+                currLockedValue = 1;
+            }
+            
+            System.out.println("CURR LOCKED VALUE " + currLockedValue);
             tableModel.addRow(new Object[]{
                 users.get(nCtr).getUsername(), 
                 users.get(nCtr).getPassword(), 
                 users.get(nCtr).getRole(), 
-                users.get(nCtr).getLocked()});
+                currLockedValue});
         }
     }
 
@@ -238,9 +248,20 @@ public class MgmtUser extends javax.swing.JPanel {
             }
             
             int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to " + state + " " + tableModel.getValueAt(table.getSelectedRow(), 0) + "?", "DELETE USER", JOptionPane.YES_NO_OPTION);
+            int lockUser = 0;
+            
+            if(state.equals("lock")){
+                 lockUser = 3;
+            }
+            else{
+                lockUser = 0;
+            }
             
             if (result == JOptionPane.YES_OPTION) {
                 System.out.println(tableModel.getValueAt(table.getSelectedRow(), 0));
+                String userName = tableModel.getValueAt(table.getSelectedRow(), 0).toString();
+                sqlite.addLockValue(userName, lockUser);
+                init();
             }
         }
     }//GEN-LAST:event_lockBtnActionPerformed
