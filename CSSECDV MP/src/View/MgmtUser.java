@@ -241,6 +241,7 @@ public class MgmtUser extends javax.swing.JPanel {
                 System.out.println(tableModel.getValueAt(table.getSelectedRow(), 0));
                 String userName = tableModel.getValueAt(table.getSelectedRow(), 0).toString();
                 sqlite.removeUser(userName);
+                init();
             }
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
