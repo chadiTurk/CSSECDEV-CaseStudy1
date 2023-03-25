@@ -6,8 +6,11 @@
 package View;
 
 import Controller.SQLite;
+import Model.BCrypt;
 import Model.User;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -24,6 +27,7 @@ public class MgmtUser extends javax.swing.JPanel {
 
     public SQLite sqlite;
     public DefaultTableModel tableModel;
+    public Frame frame;
     
     public MgmtUser(SQLite sqlite) {
         initComponents();
@@ -282,10 +286,54 @@ public class MgmtUser extends javax.swing.JPanel {
             if (result == JOptionPane.OK_OPTION) {
                 System.out.println(password.getText());
                 System.out.println(confpass.getText());
+                String userName = tableModel.getValueAt(table.getSelectedRow(), 0).toString();
+                updateUserPassword(userName,password.getText(),confpass.getText());
             }
         }
     }//GEN-LAST:event_chgpassBtnActionPerformed
+    
+    private void updateUserPassword(String userName,String password,String confirmPassword){
+        
+          if(!password.equals(confirmPassword))
+        {
+             JOptionPane.showMessageDialog(this
+                    , "Passwords do not match.",
+                               "Error", JOptionPane.WARNING_MESSAGE);
+        }
+        //If password is weak
+        else if(!checkPasswordStrength(password)){
+              JOptionPane.showMessageDialog(this
+                    , "Password is weak, must be greater than or equal to 8 characters. Must contain at least one uppper,lowercase,numeric,and special character.",
+                               "Error", JOptionPane.WARNING_MESSAGE);
+        }
+        //If password is too long
+        else if(password.length() > 64){
+              JOptionPane.showMessageDialog(this
+                    , "Password should not exceed 64 charactersd.",
+                               "Error", JOptionPane.WARNING_MESSAGE);
+        }
+        else{
+            System.out.println("username val: " + userName);
+            String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
+            sqlite.updatePassword(userName, hashedPassword);
+            JOptionPane.showMessageDialog(this
+                    , "Password has updated successfully..",
+                               "Updated", JOptionPane.INFORMATION_MESSAGE);
+        }
 
+    }
+    
+    
+    private boolean checkPasswordStrength(String password){
+        
+        Pattern patternCheckStrongPassword = Pattern.compile("(?=^.{8,}$)(?=.*\\d)(?=.*[!@#$%^&*]+)(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$");
+        Matcher matcherCheckStrongPassword = patternCheckStrongPassword.matcher(password);
+        
+        boolean passwordIsStrong = matcherCheckStrongPassword.find();
+        
+        return passwordIsStrong;
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton chgpassBtn;

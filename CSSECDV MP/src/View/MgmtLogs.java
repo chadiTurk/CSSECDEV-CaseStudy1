@@ -8,6 +8,7 @@ package View;
 import Controller.SQLite;
 import Model.Logs;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -135,7 +136,20 @@ public class MgmtLogs extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
-        
+        if(table.getSelectedRow() >= 0){
+            int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the highlighted log?", "DELETE USER", JOptionPane.YES_NO_OPTION);
+            System.out.println("RESULT VALUE = " + result);
+            if (result == JOptionPane.YES_OPTION) {
+                String event = tableModel.getValueAt(table.getSelectedRow(), 0).toString();
+                String username = tableModel.getValueAt(table.getSelectedRow(), 1).toString();
+                String desc = tableModel.getValueAt(table.getSelectedRow(), 2).toString();
+                String timestamp = tableModel.getValueAt(table.getSelectedRow(), 3).toString();
+                
+                sqlite.deleteUserLog(event, username, desc, timestamp);
+                
+                init();
+            }
+        }
     }//GEN-LAST:event_clearBtnActionPerformed
 
     private void debugBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_debugBtnActionPerformed

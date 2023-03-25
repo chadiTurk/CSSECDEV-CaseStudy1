@@ -382,6 +382,7 @@ public class SQLite {
             statement.setString(1,password);
             statement.setString(2,username);
             System.out.println(statement.executeUpdate());
+            System.out.println("PASSWORD HAS BEEN UPDATED");
         }
         catch (SQLException ex) {
             System.out.print(ex);
@@ -475,6 +476,27 @@ public class SQLite {
             statement.setInt(1,role);
             statement.setString(2,username);
             System.out.println(statement.executeUpdate());
+        }
+        catch (SQLException ex) {
+            System.out.print(ex);
+        }
+    }
+    
+    //Delete user log
+    
+    public void deleteUserLog(String event, String username, String desc, String timestamp){
+         String sql = "DELETE FROM logs WHERE event=? AND username=? AND desc=? AND timestamp=?";
+       
+       
+        try{
+            Connection conn = DriverManager.getConnection(driverURL);
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1,event);
+            statement.setString(2,username);
+            statement.setString(3,desc);
+            statement.setString(4,timestamp);
+            System.out.println(statement.executeUpdate());
+            System.out.println("LOG  HAS BEEN DELETED");
         }
         catch (SQLException ex) {
             System.out.print(ex);
