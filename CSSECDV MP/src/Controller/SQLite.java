@@ -150,7 +150,6 @@ public class SQLite {
     }
     
     public void addHistory(String username, String name, int stock, String timestamp) {
-        System.out.println("CURR TIME STAMP IN DB: " + timestamp);
         String sql = "INSERT INTO history(username,name,stock,timestamp) VALUES('" + username + "','" + name + "','" + stock + "','" + timestamp + "')";
         
         try (Connection conn = DriverManager.getConnection(driverURL);
@@ -326,17 +325,19 @@ public class SQLite {
             System.out.print(ex);
         }
     }
-    
-    public void removeUser(String username) {
-        String sql = "DELETE FROM users WHERE username='" + username + "';";
 
-        try (Connection conn = DriverManager.getConnection(driverURL);
-            Statement stmt = conn.createStatement()) {
-            stmt.execute(sql);
-            System.out.println("User " + username + " has been deleted.");
-        } catch (Exception ex) {
+    public void removeUser(String username){
+        String sql = "DELETE FROM users WHERE username=?";
+        try{
+            Connection conn = DriverManager.getConnection(driverURL);
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1,username);
+            System.out.println(statement.executeUpdate());
+        }
+        catch (SQLException ex) {
             System.out.print(ex);
         }
+        
     }
     
     public void removeProduct (String name){

@@ -52,7 +52,7 @@ public class MgmtUser extends javax.swing.JPanel {
         ArrayList<User> users = sqlite.getUsers();
         for(int nCtr = 0; nCtr < users.size(); nCtr++){
             int currLockedValue = 0;
-            System.out.println("LOCKED VALUE IN DB = " + users.get(nCtr).getLocked());
+
             if(users.get(nCtr).getLocked() < 3){
                 currLockedValue = 0;
             }
@@ -60,7 +60,6 @@ public class MgmtUser extends javax.swing.JPanel {
                 currLockedValue = 1;
             }
             
-            System.out.println("CURR LOCKED VALUE " + currLockedValue);
             tableModel.addRow(new Object[]{
                 users.get(nCtr).getUsername(), 
                 users.get(nCtr).getPassword(), 
@@ -240,6 +239,8 @@ public class MgmtUser extends javax.swing.JPanel {
             
             if (result == JOptionPane.YES_OPTION) {
                 System.out.println(tableModel.getValueAt(table.getSelectedRow(), 0));
+                String userName = tableModel.getValueAt(table.getSelectedRow(), 0).toString();
+                sqlite.removeUser(userName);
             }
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
