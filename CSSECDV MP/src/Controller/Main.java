@@ -9,6 +9,7 @@ import View.Frame;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import Model.BCrypt;
 
 
 
@@ -56,11 +57,11 @@ public class Main {
         sqlite.addProduct("Scanner", 10, 100.0);
 
         // Add sample users
-        sqlite.addUser("admin", "adminPassSecure23!" , 5);
-        sqlite.addUser("manager", "managerPassSecure4914!", 4);
-        sqlite.addUser("staff", "staffPassSecure123192*", 3);
-        sqlite.addUser("client1", "qwerty1234", 2);
-        sqlite.addUser("client2", "qwerty1234", 2);
+        sqlite.addUser("admin", BCrypt.hashpw("adminPassSecure23!",BCrypt.gensalt(12)) , 5);
+        sqlite.addUser("manager", BCrypt.hashpw("managerPassSecure4914!",BCrypt.gensalt(12)), 4);
+        sqlite.addUser("staff", BCrypt.hashpw("staffPassSecure123192*",BCrypt.gensalt(12)), 3);
+        sqlite.addUser("client1", BCrypt.hashpw("qwerty1234",BCrypt.gensalt(12)), 2);
+        sqlite.addUser("client2", BCrypt.hashpw("qwerty1234",BCrypt.gensalt(12)), 2);
         
         
         // Get users
