@@ -173,7 +173,11 @@ public class SQLite {
     
     public void addProduct(String name, int stock, double price) {
         String sql = "INSERT INTO product(name,stock,productExists,price) VALUES(?,?,1,?)";
-
+        
+        if (stock < 0 || price < 0) {
+        throw new IllegalArgumentException("stock or price must be greater than 0");
+        }
+        
         try{
             Connection conn = DriverManager.getConnection(driverURL);
             PreparedStatement statement = conn.prepareStatement(sql);
@@ -413,6 +417,9 @@ public class SQLite {
     //Edit product
     
     public void editProduct(String name, int stock, double price){
+       if (stock < 0 || price < 0) {
+        throw new IllegalArgumentException("stock or price must be greater than 0");
+        }
        String sql = "UPDATE product SET name=?,stock=?,price=? WHERE name=?";
        
         try{

@@ -230,7 +230,7 @@ public class MgmtProduct extends javax.swing.JPanel {
 
         int result = JOptionPane.showConfirmDialog(null, message, "ADD PRODUCT", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null);
 
-        if (result == JOptionPane.OK_OPTION) {
+        if (result == JOptionPane.OK_OPTION && Integer.parseInt(stockFld.getText())>= 0 && Double.parseDouble(priceFld.getText())>=0) {
             System.out.println(nameFld.getText());
             System.out.println(stockFld.getText());
             System.out.println(priceFld.getText());
@@ -255,7 +255,7 @@ public class MgmtProduct extends javax.swing.JPanel {
 
             int result = JOptionPane.showConfirmDialog(null, message, "EDIT PRODUCT", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null);
 
-            if (result == JOptionPane.OK_OPTION) {
+            if (result == JOptionPane.OK_OPTION  && Integer.parseInt(stockFld.getText())>= 0 && Double.parseDouble(priceFld.getText())>=0) {
                 System.out.println(nameFld.getText());
                 System.out.println(stockFld.getText());
                 System.out.println(priceFld.getText());
