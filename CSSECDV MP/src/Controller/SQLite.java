@@ -470,16 +470,16 @@ public class SQLite {
     
     public void editUserRole(int role, String username){
         String sql = "UPDATE users SET role=? WHERE username=?";
-        
+        ArrayList<User> users = getUsers();
         try{
             Connection conn = DriverManager.getConnection(driverURL);
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1,role);
-            statement.setString(2,username);
-            System.out.println(statement.executeUpdate());
+            statement.setString(2,username);          
+            System.out.println(statement.executeUpdate()+"test");
         }
-        catch (SQLException ex) {
-            System.out.print(ex);
+        catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
     

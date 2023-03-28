@@ -363,6 +363,10 @@ public class Frame extends javax.swing.JFrame {
         main.sqlite.addLockValue(username, val);
     }
     
+    public void updateRole(int val, String username){
+        main.sqlite.editUserRole(val, username);
+    }
+    
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

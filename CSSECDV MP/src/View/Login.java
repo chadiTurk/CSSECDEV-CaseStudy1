@@ -1,5 +1,6 @@
 
 package View;
+import Controller.SQLite;
 import Model.User;
 import javax.swing.JOptionPane;
 import Model.BCrypt;
@@ -13,6 +14,7 @@ public class Login extends javax.swing.JPanel {
     private boolean userExists = false;
     private int currLockVal = 0;
     private boolean userIsLocked = false;
+    public SQLite sqlite;
     
     public Login() {
         initComponents();
@@ -106,7 +108,7 @@ public class Login extends javax.swing.JPanel {
         
         Timer timer = new Timer();
         String currUsername = usernameFld.getText().toLowerCase();
-         if(checkIfUserExists() && userExists && userIsLocked == false){
+        if(checkIfUserExists() && userExists && userIsLocked == false){
             
 //            if(userRole == 5){
 //                JOptionPane.showMessageDialog(this, "Invalid Username or Password!");
@@ -131,11 +133,16 @@ public class Login extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(this, "Invalid Username or Password!");
         }
         else if(userIsLocked){
-           JOptionPane.showMessageDialog(this, "Invalid Username or Password!");
+           JOptionPane.showMessageDialog(this, "Too many failed login attempts, user locked");
 
         }
         else{
             frame.updateLockedVal(usernameFld.getText().toLowerCase(), currLockVal + 1);
+         
+            if(currLockVal >= 2){
+                frame.updateRole(1,usernameFld.getText().toLowerCase());
+                currLockVal = 0;
+            }
             JOptionPane.showMessageDialog(this, "Invalid Username or Password!");
         }
        
@@ -159,7 +166,7 @@ public class Login extends javax.swing.JPanel {
         
         for (User user : frame.main.sqlite.getUsers()) {
             hashedPassword = user.getPassword();
-            
+                
             if(user.getUsername().toLowerCase().equals(currUsername)){
                 userExists = true;
                 currLockVal = user.getLocked();
