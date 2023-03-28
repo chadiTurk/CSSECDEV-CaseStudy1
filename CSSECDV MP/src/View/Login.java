@@ -3,6 +3,7 @@ package View;
 import Model.User;
 import javax.swing.JOptionPane;
 import Model.BCrypt;
+import java.util.*;
 
 public class Login extends javax.swing.JPanel {
 
@@ -103,6 +104,7 @@ public class Login extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
         
+        Timer timer = new Timer();
         String currUsername = usernameFld.getText().toLowerCase();
          if(checkIfUserExists() && userExists && userIsLocked == false){
             
@@ -114,8 +116,13 @@ public class Login extends javax.swing.JPanel {
                
             usernameFld.setText("");
             passwordFld.setText("");
-            frame.mainNav(userRole,currUsername);
             
+            LoginThread thread = new LoginThread(userRole, currUsername);
+            thread.run();
+
+            TimeOutTask timeOutTask = new TimeOutTask(thread, "thread 1", timer);
+            //10 mins session
+            timer.schedule(timeOutTask, 600000);
             frame.updateLockedVal(usernameFld.getText().toLowerCase(), 0);
 
 
@@ -172,7 +179,47 @@ public class Login extends javax.swing.JPanel {
         return correctUser;
     }
     
- 
+    class LoginThread extends Thread{
+        
+        private int userRole;
+        private String currUsername;
+        
+        public LoginThread(int userRole, String currUsername){
+            this.userRole = userRole;
+            this.currUsername = currUsername;
+        }
+        
+        public void run(){
+            System.out.println("MyThread running");
+            frame.mainNav(userRole, currUsername);
+            if(Thread.interrupted()) {
+                return;
+            }  
+        }
+    }
+    
+    class TimeOutTask extends TimerTask {
+        private Thread thread;
+        private String name;
+        private Timer timer;
+
+        public TimeOutTask(Thread thread, String name, Timer timer) {
+            this.thread = thread;
+            this.name = name;
+            this.timer = timer;
+
+        }
+
+        @Override
+        public void run() {
+           System.out.println("[" + new Date() + "] " + name + ": task executed!");
+           if(thread != null && thread.isAlive()) {
+                thread.interrupt();
+                timer.cancel();
+            }
+           frame.loginNav();
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
