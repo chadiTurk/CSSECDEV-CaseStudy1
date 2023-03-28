@@ -62,7 +62,7 @@ public class Main {
         sqlite.addUser("staff", BCrypt.hashpw("staffPassSecure123192*",BCrypt.gensalt(12)), 3);
         sqlite.addUser("client1", BCrypt.hashpw("qwerty1234",BCrypt.gensalt(12)), 2);
         sqlite.addUser("client2", BCrypt.hashpw("qwerty1234",BCrypt.gensalt(12)), 2);
-        
+        sqlite.addUser("client3", BCrypt.hashpw("qwerty1234",BCrypt.gensalt(12)), 1);
         
         // Get users
         ArrayList<History> histories = sqlite.getHistory();

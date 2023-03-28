@@ -155,6 +155,7 @@ public class Login extends javax.swing.JPanel {
         String currUsername = usernameFld.getText().toLowerCase();
         String password = passwordFld.getText();
         String hashedPassword;
+        boolean disabled = false;
         
         for (User user : frame.main.sqlite.getUsers()) {
             hashedPassword = user.getPassword();
@@ -162,7 +163,9 @@ public class Login extends javax.swing.JPanel {
             if(user.getUsername().toLowerCase().equals(currUsername)){
                 userExists = true;
                 currLockVal = user.getLocked();
-                if(currLockVal >= 3){
+                if(user.getRole()==1)
+                    disabled = true;
+                if(currLockVal >= 3 || disabled == true){
                     userIsLocked = true;
                 }
                 else{
